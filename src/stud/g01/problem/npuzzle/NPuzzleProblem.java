@@ -4,6 +4,7 @@ import core.problem.Action;
 import core.problem.Problem;
 import core.problem.State;
 import core.solver.queue.Node;
+import stud.g01.visualization.PuzzleSolutionRenderer;
 
 import java.util.Deque;
 
@@ -24,6 +25,14 @@ public class NPuzzleProblem extends Problem {
 
     public NPuzzleProblem(State initialState, State goal, int size) {
         super(initialState, goal, size);
+    }
+
+    /** 返回目标棋盘，供性能测试和路径渲染工具读取。 */
+    public PuzzleBoard goalBoard() {
+        if (!(goal instanceof PuzzleBoard)) {
+            throw new IllegalStateException("goal state must be a PuzzleBoard");
+        }
+        return (PuzzleBoard) goal;
     }
 
     /**
@@ -158,16 +167,9 @@ public class NPuzzleProblem extends Problem {
      */
     @Override
     public void showSolution(Deque<Node> path) {
-        System.out.println("初始状态:");
-        initialState.draw();
-
-        int step = 0;
-        for (Node node : path) {
-            step++;
-            System.out.println("第 " + step + " 步: " + node.getAction());
-            node.getState().draw();
+        if (!(initialState instanceof PuzzleBoard)) {
+            throw new IllegalStateException("initial state must be a PuzzleBoard");
         }
-
-        System.out.println("共 " + step + " 步到达目标状态。");
+        System.out.print(PuzzleSolutionRenderer.render((PuzzleBoard) initialState, path));
     }
 }

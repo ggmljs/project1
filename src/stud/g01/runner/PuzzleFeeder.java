@@ -9,6 +9,7 @@ import core.solver.queue.Frontier;
 import core.solver.queue.Node;
 import stud.g01.heuristic.ManhattanPredictor;
 import stud.g01.heuristic.MisplacedTilesPredictor;
+import stud.g01.heuristic.DisjointPatternPredictor;
 import stud.g01.problem.npuzzle.NPuzzleProblem;
 import stud.g01.problem.npuzzle.PuzzleBoard;
 import stud.g01.queue.PqFrontier;
@@ -142,10 +143,7 @@ public class PuzzleFeeder extends EngineFeeder {
             case MANHATTAN:
                 return new ManhattanPredictor();
             case DISJOINT_PATTERN:
-                // 成员五接入：返回其 disjoint pattern database 预测器实例即可，
-                // 例如 return new stud.g01.heuristic.DisjointPatternPredictor(problems);
-                throw new UnsupportedOperationException(
-                        "DISJOINT_PATTERN 由成员五实现，请在 PuzzleFeeder.getPredictor 的这一分支接入");
+                return new DisjointPatternPredictor();
             default:
                 throw new IllegalArgumentException("unsupported heuristic type for N-Puzzle: " + type);
         }

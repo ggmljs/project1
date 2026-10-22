@@ -8,6 +8,7 @@ import core.solver.queue.Frontier;
 import core.solver.queue.Node;
 import stud.g01.heuristic.ManhattanPredictor;
 import stud.g01.heuristic.MisplacedTilesPredictor;
+import stud.g01.heuristic.DisjointPatternPredictor;
 import stud.g01.problem.npuzzle.PuzzleBoard;
 
 import java.util.ArrayList;
@@ -109,9 +110,8 @@ public final class PuzzleFeederSelfTest {
         expect(misplaced instanceof MisplacedTilesPredictor, "工厂：MISPLACED 返回错位将牌数");
         expect(manhattan instanceof ManhattanPredictor, "工厂：MANHATTAN 返回曼哈顿距离");
 
-        // DISJOINT_PATTERN 属于成员五的第三阶段任务，这里只校验“接入点存在且明确”
-        expectThrows(() -> feeder.getPredictor(HeuristicType.DISJOINT_PATTERN),
-                "工厂：DISJOINT_PATTERN 尚未实现，应给出明确的未实现异常");
+        expect(feeder.getPredictor(HeuristicType.DISJOINT_PATTERN) instanceof DisjointPatternPredictor,
+                "工厂：DISJOINT_PATTERN 返回不相交模式数据库启发函数");
         expectThrows(() -> feeder.getPredictor(HeuristicType.PF_GRID),
                 "工厂：非 N-Puzzle 的启发函数类型应报错");
         expectThrows(() -> feeder.getPredictor(null), "工厂：null 启发函数类型应报错");
